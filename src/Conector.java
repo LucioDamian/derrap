@@ -9,7 +9,7 @@ public class Conector {
 
     // Constantes de configuración para la base de datos
     private static final String CONTROLADOR = "com.mysql.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/derrapdb?useSSL=false";
+    private static final String URL = "jdbc:mysql://localhost:3306/derrapdb?allowPublicKeyRetrieval=true&useSSL=false";
     private static final String USUARIO = "root";
     private static final String CLAVE = "root";
 
