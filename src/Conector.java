@@ -9,9 +9,9 @@ public class Conector {
 
     // Constantes de configuración para la base de datos
     private static final String CONTROLADOR = "com.mysql.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/derrapdb?allowPublicKeyRetrieval=true&useSSL=false";
+    private static final String URL = "jdbc:mysql://localhost:3306/derrapdb?useSSL=false";
     private static final String USUARIO = "root";
-    private static final String CLAVE = "root";
+    private static final String CLAVE = "medac";
 
     // Atributos relacionados con la conexión a la base de datos
     Connection cn = null;
@@ -402,6 +402,7 @@ public class Conector {
             cerrarRecursos();
         }
     }
+    
 
     /**
      * Método para cerrar los recursos (ResultSet, Statement, Connection).
@@ -414,5 +415,22 @@ public class Conector {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public ResultSet clientesdni() {
+        try {
+            if (cn == null || cn.isClosed()) {
+                conexion_correcta();
+            }
+
+            if (st == null || st.isClosed()) {
+                st = cn.createStatement();
+            }
+
+            String query = "SELECT DNI FROM cliente";
+            resultado = st.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultado;
     }
 }

@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
@@ -10,9 +11,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Enumeration;
 
 import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
 import javax.swing.Action;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +28,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JRadioButton;
 
 public class Administrador extends JFrame {
 
@@ -36,6 +41,9 @@ public class Administrador extends JFrame {
 
     private JTable tablaClientes; // Tabla para mostrar clientes
     private String clienteSeleccionadoDNI = null; // Para almacenar el DNI del cliente seleccionado
+    private JTextField dni_clien_ord;
+    private ButtonGroup opciones = new ButtonGroup();
+    private JButton enviar;
 
     /**
      * Launch the application.
@@ -113,6 +121,14 @@ public class Administrador extends JFrame {
         menuBar.add(piezas);
 
         JButton ordenes = new JButton("Ordenes");
+        ordenes.setForeground(Color.WHITE);  // Texto blanco
+        ordenes.setBackground(new Color(0, 120, 215));  // Fondo azul
+        ordenes.setFont(new Font("Arial", Font.BOLD, 12));
+        ordenes.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		card.show(cardpanel, "Ordenes");
+        	}
+        });
         menuBar.add(ordenes);
 
         JButton citas = new JButton("Citas");
@@ -284,6 +300,121 @@ public class Administrador extends JFrame {
         vehiculoPanel.setBackground(new Color(255, 255, 255));  // Fondo blanco
         cardpanel.add(vehiculoPanel, "Vehiculo");
         vehiculoPanel.setLayout(null);
+        
+        //Panel de Ordenes
+        JPanel Ordenes = new JPanel();
+        Ordenes.setBackground(new Color(255, 255, 255));
+        cardpanel.add(Ordenes, "Ordenes");
+        Ordenes.setLayout(null);
+        
+        JLabel clien_ord_dni = new JLabel("DNI");
+        clien_ord_dni.setBounds(36, 26, 46, 14);
+        Ordenes.add(clien_ord_dni);
+        
+        dni_clien_ord = new JTextField();
+        dni_clien_ord.setBounds(72, 23, 210, 20);
+        Ordenes.add(dni_clien_ord);
+        dni_clien_ord.setColumns(10);
+        
+        JLabel servicios = new JLabel("Servicios:");
+        servicios.setBounds(36, 51, 46, 14);
+        Ordenes.add(servicios);
+        
+        //Crear las opciones para las ordenes 
+        JRadioButton diagnostico = new JRadioButton("Diagnostico");
+        diagnostico.setBounds(46, 72, 149, 23);
+        Ordenes.add(diagnostico);
+        
+        JRadioButton preitv = new JRadioButton("Pre ITV");
+        preitv.setBounds(46, 98, 149, 23);
+        Ordenes.add(preitv);
+        
+        JRadioButton frenos = new JRadioButton("Frenos y ABS");
+        frenos.setBounds(46, 124, 149, 23);
+        Ordenes.add(frenos);
+        
+        JRadioButton aceites = new JRadioButton("Aceites y filtros");
+        aceites.setBounds(46, 150, 149, 23);
+        Ordenes.add(aceites);
+        
+        JRadioButton neumaticos = new JRadioButton("Neumaticos");
+        neumaticos.setBounds(46, 176, 149, 23);
+        Ordenes.add(neumaticos);
+        
+        JRadioButton revision = new JRadioButton("Revision oficial");
+        revision.setBounds(46, 202, 149, 23);
+        Ordenes.add(revision);
+        
+        JRadioButton matriculas = new JRadioButton("Matriculas");
+        matriculas.setBounds(46, 228, 149, 23);
+        Ordenes.add(matriculas);
+        
+        JRadioButton pintura = new JRadioButton("Chapa y pintura");
+        pintura.setBounds(46, 254, 149, 23);
+        Ordenes.add(pintura);
+        
+        JRadioButton equilibrado = new JRadioButton("Equilibrado/Alineacion");
+        equilibrado.setBounds(46, 280, 149, 23);
+        Ordenes.add(equilibrado);
+        
+        JRadioButton aire = new JRadioButton("Aire acondicionado");
+        aire.setBounds(46, 306, 149, 23);
+        Ordenes.add(aire);
+        
+        JRadioButton electronica = new JRadioButton("Electronica");
+        electronica.setBounds(46, 332, 149, 20);
+        Ordenes.add(electronica);
+        
+        opciones.add(diagnostico);
+        opciones.add(preitv);
+        opciones.add(frenos);
+        opciones.add(neumaticos);
+        opciones.add(aceites);
+        opciones.add(revision);
+        opciones.add(matriculas);
+        opciones.add(pintura);
+        opciones.add(aire);
+        opciones.add(electronica);
+        opciones.add(equilibrado);
+        
+      
+        deshabilitaropciones();
+        
+        JLabel lblNewLabel = new JLabel("Total:");
+        lblNewLabel.setBounds(36, 378, 46, 14);
+        Ordenes.add(lblNewLabel);
+        
+        JLabel lblNewLabel_1 = new JLabel("");
+        lblNewLabel_1.setBounds(106, 378, 46, 14);
+        Ordenes.add(lblNewLabel_1);
+        
+        JButton btnNewButton = new JButton("Comprobar");
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		Boolean comprobado= comprobardni(dni_clien_ord.getText());
+        		if(comprobado == true) {
+        			habilitaropciones();
+        			enviar.setVisible(true);
+        			dni_clien_ord.setText("");
+        		}
+        		else{
+        			JOptionPane.showMessageDialog(null, "No se encontro ningun usuario");
+        			dni_clien_ord.setText("");
+        		}
+        	}
+        });
+        btnNewButton.setBounds(314, 22, 89, 23);
+        Ordenes.add(btnNewButton);
+        
+        enviar = new JButton("Enviar");
+        enviar.setVisible(false);
+        enviar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        	}
+        });
+        enviar.setBounds(201, 331, 89, 23);
+        Ordenes.add(enviar);
 
         // Campos de texto para el CRUD de vehículos
         JLabel lblMatricula = new JLabel("Matrícula:");
@@ -585,6 +716,8 @@ public class Administrador extends JFrame {
         // Acción para listar trabajadores
         btnListarTrabajadores.addActionListener(e -> {
             actualizarTablaTrabajadores(tablaTrabajadores);
+            
+            
         });
     }
 
@@ -686,6 +819,38 @@ public class Administrador extends JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+    //Metodo para deshabilitar los RadioButtons
+    private void deshabilitaropciones() {
+        Enumeration<AbstractButton> elementos = opciones.getElements();
+        while (elementos.hasMoreElements()) {
+            AbstractButton boton = elementos.nextElement();
+            boton.setEnabled(false);
+        }
+    }
+    //Metodo para habilitar los RadioButtons
+    private void habilitaropciones() {
+        Enumeration<AbstractButton> elementos = opciones.getElements();
+        while (elementos.hasMoreElements()) {
+            AbstractButton boton = elementos.nextElement();
+            boton.setEnabled(true);
+        }
+    }
+    
+    private boolean comprobardni(String dniord) {
+    	boolean comprobado = false;
+    	ResultSet rs = conector.clientesdni();
+    	try {
+    	while(rs.next()) {
+    		if(rs.getString("dni").equals(dniord)) {
+    			comprobado = true;
+    		}	
+    	}
+    	}
+    	catch(SQLException ex) {
+    		ex.printStackTrace();
+    	}
+    	return comprobado;
     }
 
     /**
