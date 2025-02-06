@@ -29,6 +29,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JRadioButton;
+import javax.swing.JCheckBox;
+import javax.swing.JTextArea;
 
 public class Administrador extends JFrame {
 
@@ -38,12 +40,22 @@ public class Administrador extends JFrame {
     private JPanel cardpanel = new JPanel();
     private final Action action = new SwingAction();
     private Conector conector;
-
+    private JCheckBox diagnostico = new JCheckBox("Diagnostico");
+    private JCheckBox preitv = new JCheckBox("Pre ITV");
+    private JCheckBox frenos = new JCheckBox("Frenos y ABS");
+    private JCheckBox aceites = new JCheckBox("Aceites y filtros");
+    private JCheckBox neumaticos = new JCheckBox("Neumaticos");
+    private JCheckBox revision = new JCheckBox("Revision oficial");
+    private JCheckBox matriculas = new JCheckBox("Matriculas");
+    private JCheckBox pintura = new JCheckBox("Chapa y pintura");
+    private JCheckBox equilibrado = new JCheckBox("Equilibrado/Alineacion");
+    private JCheckBox aire = new JCheckBox("Aire acondicionado");
+    private JCheckBox electronica = new JCheckBox("Electronica");
     private JTable tablaClientes; // Tabla para mostrar clientes
     private String clienteSeleccionadoDNI = null; // Para almacenar el DNI del cliente seleccionado
     private JTextField dni_clien_ord;
-    private ButtonGroup opciones = new ButtonGroup();
     private JButton enviar;
+    private JTextField textField;
 
     /**
      * Launch the application.
@@ -321,61 +333,50 @@ public class Administrador extends JFrame {
         Ordenes.add(servicios);
         
         //Crear las opciones para las ordenes 
-        JRadioButton diagnostico = new JRadioButton("Diagnostico");
         diagnostico.setBounds(46, 72, 149, 23);
         Ordenes.add(diagnostico);
         
-        JRadioButton preitv = new JRadioButton("Pre ITV");
+        
         preitv.setBounds(46, 98, 149, 23);
         Ordenes.add(preitv);
         
-        JRadioButton frenos = new JRadioButton("Frenos y ABS");
+        
         frenos.setBounds(46, 124, 149, 23);
         Ordenes.add(frenos);
         
-        JRadioButton aceites = new JRadioButton("Aceites y filtros");
+        
         aceites.setBounds(46, 150, 149, 23);
         Ordenes.add(aceites);
         
-        JRadioButton neumaticos = new JRadioButton("Neumaticos");
+        
         neumaticos.setBounds(46, 176, 149, 23);
         Ordenes.add(neumaticos);
         
-        JRadioButton revision = new JRadioButton("Revision oficial");
+        
         revision.setBounds(46, 202, 149, 23);
         Ordenes.add(revision);
         
-        JRadioButton matriculas = new JRadioButton("Matriculas");
+        
         matriculas.setBounds(46, 228, 149, 23);
         Ordenes.add(matriculas);
         
-        JRadioButton pintura = new JRadioButton("Chapa y pintura");
+        
         pintura.setBounds(46, 254, 149, 23);
         Ordenes.add(pintura);
         
-        JRadioButton equilibrado = new JRadioButton("Equilibrado/Alineacion");
+        
         equilibrado.setBounds(46, 280, 149, 23);
         Ordenes.add(equilibrado);
         
-        JRadioButton aire = new JRadioButton("Aire acondicionado");
+        
         aire.setBounds(46, 306, 149, 23);
         Ordenes.add(aire);
         
-        JRadioButton electronica = new JRadioButton("Electronica");
+        
         electronica.setBounds(46, 332, 149, 20);
         Ordenes.add(electronica);
         
-        opciones.add(diagnostico);
-        opciones.add(preitv);
-        opciones.add(frenos);
-        opciones.add(neumaticos);
-        opciones.add(aceites);
-        opciones.add(revision);
-        opciones.add(matriculas);
-        opciones.add(pintura);
-        opciones.add(aire);
-        opciones.add(electronica);
-        opciones.add(equilibrado);
+        
         
       
         deshabilitaropciones();
@@ -415,6 +416,27 @@ public class Administrador extends JFrame {
         });
         enviar.setBounds(201, 331, 89, 23);
         Ordenes.add(enviar);
+        
+        JLabel lblNewLabel_2 = new JLabel("Fecha:");
+        lblNewLabel_2.setBounds(410, 26, 46, 14);
+        Ordenes.add(lblNewLabel_2);
+        
+        textField = new JTextField();
+        textField.setBounds(466, 23, 129, 20);
+        Ordenes.add(textField);
+        textField.setColumns(10);
+        
+        JLabel lblNewLabel_3 = new JLabel("Descripcion:");
+        lblNewLabel_3.setBounds(263, 76, 76, 14);
+        Ordenes.add(lblNewLabel_3);
+        
+        JTextArea textArea = new JTextArea();
+        textArea.setBounds(263, 97, 210, 102);
+        Ordenes.add(textArea);
+        
+        JButton revisar = new JButton("Revisar");
+        revisar.setBounds(10, 434, 89, 23);
+        Ordenes.add(revisar);
 
         // Campos de texto para el CRUD de vehículos
         JLabel lblMatricula = new JLabel("Matrícula:");
@@ -822,19 +844,32 @@ public class Administrador extends JFrame {
     }
     //Metodo para deshabilitar los RadioButtons
     private void deshabilitaropciones() {
-        Enumeration<AbstractButton> elementos = opciones.getElements();
-        while (elementos.hasMoreElements()) {
-            AbstractButton boton = elementos.nextElement();
-            boton.setEnabled(false);
+        diagnostico.setEnabled(false);
+        preitv.setEnabled(false);
+        frenos.setEnabled(false);
+        aceites.setEnabled(false);
+        neumaticos.setEnabled(false);
+        revision.setEnabled(false);
+        matriculas.setEnabled(false);
+        pintura.setEnabled(false);
+        equilibrado.setEnabled(false);
+        aire.setEnabled(false);
+        electronica.setEnabled(false);
         }
-    }
+    
     //Metodo para habilitar los RadioButtons
     private void habilitaropciones() {
-        Enumeration<AbstractButton> elementos = opciones.getElements();
-        while (elementos.hasMoreElements()) {
-            AbstractButton boton = elementos.nextElement();
-            boton.setEnabled(true);
-        }
+    	diagnostico.setEnabled(true);
+        preitv.setEnabled(true);
+        frenos.setEnabled(true);
+        aceites.setEnabled(true);
+        neumaticos.setEnabled(true);
+        revision.setEnabled(true);
+        matriculas.setEnabled(true);
+        pintura.setEnabled(true);
+        equilibrado.setEnabled(true);
+        aire.setEnabled(true);
+        electronica.setEnabled(true);
     }
     
     private boolean comprobardni(String dniord) {
