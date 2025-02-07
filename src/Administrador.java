@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
@@ -52,11 +54,15 @@ public class Administrador extends JFrame {
     private JCheckBox aire = new JCheckBox("Aire acondicionado");
     private JCheckBox electronica = new JCheckBox("Electronica");
     private JTable tablaClientes; // Tabla para mostrar clientes
-    private String clienteSeleccionadoDNI = null; // Para almacenar el DNI del cliente seleccionado
-    private JTextField dni_clien_ord;
-    private JButton enviar;
-    private JTextField textField;
-
+    private String clienteSeleccionadoDNI = null;
+    private String ordenseleccionada = null;// Para almacenar el DNI del cliente seleccionado
+    private JTextField usuario_nom;
+    private JButton suma;
+    private JTextField fechaord;
+    private JTable tablaorden;
+    private int precio = 0;
+    private JTextField matriculavehi;
+    private JTextField idordenactu;
     /**
      * Launch the application.
      */
@@ -313,130 +319,368 @@ public class Administrador extends JFrame {
         cardpanel.add(vehiculoPanel, "Vehiculo");
         vehiculoPanel.setLayout(null);
         
-        //Panel de Ordenes
+        
+        
+        
+        
+        //Todo el codigo de la ventana de ordenes esta aqui!!!!
+        
+        
+        
+        
+        
+        
         JPanel Ordenes = new JPanel();
         Ordenes.setBackground(new Color(255, 255, 255));
         cardpanel.add(Ordenes, "Ordenes");
         Ordenes.setLayout(null);
         
-        JLabel clien_ord_dni = new JLabel("DNI");
-        clien_ord_dni.setBounds(36, 26, 46, 14);
+        JLabel clien_ord_dni = new JLabel("Usuario");
+        clien_ord_dni.setBounds(21, 42, 46, 14);
         Ordenes.add(clien_ord_dni);
         
-        dni_clien_ord = new JTextField();
-        dni_clien_ord.setBounds(72, 23, 210, 20);
-        Ordenes.add(dni_clien_ord);
-        dni_clien_ord.setColumns(10);
+        usuario_nom = new JTextField();
+        usuario_nom.setBounds(69, 39, 210, 20);
+        Ordenes.add(usuario_nom);
+        usuario_nom.setColumns(10);
         
         JLabel servicios = new JLabel("Servicios:");
-        servicios.setBounds(36, 51, 46, 14);
+        servicios.setBounds(36, 67, 46, 14);
         Ordenes.add(servicios);
         
         //Crear las opciones para las ordenes 
-        diagnostico.setBounds(46, 72, 149, 23);
-        Ordenes.add(diagnostico);
-        
-        
-        preitv.setBounds(46, 98, 149, 23);
-        Ordenes.add(preitv);
-        
-        
-        frenos.setBounds(46, 124, 149, 23);
+        diagnostico.setBounds(46, 88, 149, 23);
+        Ordenes.add(diagnostico);                
+        preitv.setBounds(46, 114, 149, 23);
+        Ordenes.add(preitv);                
+        frenos.setBounds(46, 140, 149, 23);
         Ordenes.add(frenos);
-        
-        
-        aceites.setBounds(46, 150, 149, 23);
-        Ordenes.add(aceites);
-        
-        
-        neumaticos.setBounds(46, 176, 149, 23);
-        Ordenes.add(neumaticos);
-        
-        
-        revision.setBounds(46, 202, 149, 23);
-        Ordenes.add(revision);
-        
-        
-        matriculas.setBounds(46, 228, 149, 23);
+        aceites.setBounds(46, 166, 149, 23);
+        Ordenes.add(aceites);                
+        neumaticos.setBounds(46, 192, 149, 23);
+        Ordenes.add(neumaticos);                
+        revision.setBounds(46, 218, 149, 23);
+        Ordenes.add(revision);                
+        matriculas.setBounds(197, 88, 149, 23);
         Ordenes.add(matriculas);
-        
-        
-        pintura.setBounds(46, 254, 149, 23);
-        Ordenes.add(pintura);
-        
-        
-        equilibrado.setBounds(46, 280, 149, 23);
-        Ordenes.add(equilibrado);
-        
-        
-        aire.setBounds(46, 306, 149, 23);
-        Ordenes.add(aire);
-        
-        
-        electronica.setBounds(46, 332, 149, 20);
+        pintura.setBounds(197, 114, 149, 23);
+        Ordenes.add(pintura);                
+        equilibrado.setBounds(197, 140, 149, 23);
+        Ordenes.add(equilibrado);                
+        aire.setBounds(197, 166, 149, 23);
+        Ordenes.add(aire);        
+        electronica.setBounds(197, 193, 149, 20);
         Ordenes.add(electronica);
-        
-        
-        
-      
         deshabilitaropciones();
         
+        //valor numerico a los checkbox
+        
+        diagnostico.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    precio += 10;  // Sumar 1 si está seleccionado
+                } else {
+                    precio -= 10;  // Restar 1 si está deseleccionado
+                }
+                System.out.println("Valor actual: " + precio);
+            }
+        });
+        
+        preitv.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    precio += 30;  // Sumar 1 si está seleccionado
+                } else {
+                    precio -= 30;  // Restar 1 si está deseleccionado
+                }
+                System.out.println("Valor actual: " + precio);
+            }
+        });
+        
+        frenos.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    precio += 50;  // Sumar 1 si está seleccionado
+                } else {
+                    precio -= 50;  // Restar 1 si está deseleccionado
+                }
+                System.out.println("Valor actual: " + precio);
+            }
+        });
+        
+        aceites.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    precio += 15;  // Sumar 1 si está seleccionado
+                } else {
+                    precio -= 15;  // Restar 1 si está deseleccionado
+                }
+                System.out.println("Valor actual: " + precio);
+            }
+        });
+        neumaticos.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    precio += 27;  // Sumar 1 si está seleccionado
+                } else {
+                    precio -= 27;  // Restar 1 si está deseleccionado
+                }
+                System.out.println("Valor actual: " + precio);
+            }
+        });
+        
+        revision.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    precio += 10;  // Sumar 1 si está seleccionado
+                } else {
+                    precio -= 10;  // Restar 1 si está deseleccionado
+                }
+                System.out.println("Valor actual: " + precio);
+            }
+        });
+        
+        matriculas.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    precio += 20;  // Sumar 1 si está seleccionado
+                } else {
+                    precio -= 20;  // Restar 1 si está deseleccionado
+                }
+                System.out.println("Valor actual: " + precio);
+            }
+        });
+        
+        pintura.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    precio += 30;  // Sumar 1 si está seleccionado
+                } else {
+                    precio -= 30;  // Restar 1 si está deseleccionado
+                }
+                System.out.println("Valor actual: " + precio);
+            }
+        });
+        
+        equilibrado.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    precio += 35;  // Sumar 1 si está seleccionado
+                } else {
+                    precio -= 35;  // Restar 1 si está deseleccionado
+                }
+                System.out.println("Valor actual: " + precio);
+            }
+        });
+        
+        aire.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    precio += 40;  // Sumar 1 si está seleccionado
+                } else {
+                    precio -= 40;  // Restar 1 si está deseleccionado
+                }
+                System.out.println("Valor actual: " + precio);
+            }
+        });
+        electronica.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    precio += 60;  // Sumar 1 si está seleccionado
+                } else {
+                    precio -= 60;  // Restar 1 si está deseleccionado
+                }
+                System.out.println("Valor actual: " + precio);
+            }
+        });
         JLabel lblNewLabel = new JLabel("Total:");
-        lblNewLabel.setBounds(36, 378, 46, 14);
+        lblNewLabel.setBounds(36, 248, 46, 14);
         Ordenes.add(lblNewLabel);
         
-        JLabel lblNewLabel_1 = new JLabel("");
-        lblNewLabel_1.setBounds(106, 378, 46, 14);
-        Ordenes.add(lblNewLabel_1);
+        JLabel preciototal = new JLabel("0€");
+        preciototal.setBounds(102, 248, 46, 14);
+        Ordenes.add(preciototal);
         
         JButton btnNewButton = new JButton("Comprobar");
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		Boolean comprobado= comprobardni(dni_clien_ord.getText());
+        		Boolean comprobado= comprobarmatricula(matriculavehi.getText());
         		if(comprobado == true) {
         			habilitaropciones();
-        			enviar.setVisible(true);
-        			dni_clien_ord.setText("");
+        			suma.setVisible(true);
+        			usuario_nom.setText("");
         		}
         		else{
         			JOptionPane.showMessageDialog(null, "No se encontro ningun usuario");
-        			dni_clien_ord.setText("");
+        			usuario_nom.setText("");
         		}
         	}
         });
-        btnNewButton.setBounds(314, 22, 89, 23);
+        btnNewButton.setBounds(289, 22, 89, 23);
         Ordenes.add(btnNewButton);
         
-        enviar = new JButton("Enviar");
-        enviar.setVisible(false);
-        enviar.addActionListener(new ActionListener() {
+        suma = new JButton("Suma Total");
+        suma.setVisible(false);
+        suma.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		
+        		String preciofinal= String.valueOf(precio);
+        		preciototal.setText(preciofinal+"€");
         	}
         });
-        enviar.setBounds(201, 331, 89, 23);
-        Ordenes.add(enviar);
+        suma.setBounds(215, 244, 89, 23);
+        Ordenes.add(suma);
         
         JLabel lblNewLabel_2 = new JLabel("Fecha:");
-        lblNewLabel_2.setBounds(410, 26, 46, 14);
+        lblNewLabel_2.setBounds(380, 3, 46, 14);
         Ordenes.add(lblNewLabel_2);
         
-        textField = new JTextField();
-        textField.setBounds(466, 23, 129, 20);
-        Ordenes.add(textField);
-        textField.setColumns(10);
+        fechaord = new JTextField();
+        fechaord.setBounds(432, 0, 129, 20);
+        Ordenes.add(fechaord);
+        fechaord.setColumns(10);
         
         JLabel lblNewLabel_3 = new JLabel("Descripcion:");
-        lblNewLabel_3.setBounds(263, 76, 76, 14);
+        lblNewLabel_3.setBounds(353, 102, 76, 14);
         Ordenes.add(lblNewLabel_3);
         
-        JTextArea textArea = new JTextArea();
-        textArea.setBounds(263, 97, 210, 102);
-        Ordenes.add(textArea);
+        JTextArea descripcion = new JTextArea();
+        descripcion.setBounds(422, 71, 210, 102);
+        Ordenes.add(descripcion);
+        
+        matriculavehi = new JTextField();
+        matriculavehi.setBounds(69, 11, 210, 20);
+        Ordenes.add(matriculavehi);
+        matriculavehi.setColumns(10);
+        
+        
+        tablaorden = new JTable();
+        tablaorden.setBounds(10, 273, 599, 172);
+        tablaorden.setVisible(false);
+        Ordenes.add(tablaorden);
+        
+        idordenactu = new JTextField();
+        idordenactu.setBounds(432, 23, 129, 20);
+        Ordenes.add(idordenactu);
+        idordenactu.setColumns(10);
+        
+        JButton modificar = new JButton("Modificar");
+        modificar.setVisible(false);
+        modificar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		int idord = Integer.parseInt(idordenactu.getText());
+                String estadorep = "Disponible";
+                String  usuario= usuario_nom.getText();
+                String vehiculo_matri = matriculavehi.getText();
+                int importe = precio;
+                String fecha = fechaord.getText();
+                String servicio = descripcion.getText();
+
+                boolean resultado = conector.actualizarOrden(idord, estadorep, usuario, vehiculo_matri, importe, fecha, servicio);
+                if (resultado) {
+                    JOptionPane.showMessageDialog(null, "Trabajador actualizado correctamente.");
+                    actualizarTablaOrdenes(tablaorden);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al actualizar trabajador.");
+                }
+        	}
+        });
+        tablaorden.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int filaSeleccionada = tablaorden.getSelectedRow();
+                if (filaSeleccionada != -1) {
+                    // Obtener el DNI del cliente seleccionado (primera columna)
+                    ordenseleccionada = (String) tablaorden.getValueAt(filaSeleccionada, 0);
+                    System.out.println("Orden seleccionada: " + ordenseleccionada);
+                }
+            }
+        });
+        
+        JButton eliminar = new JButton("Eliminar");
+        eliminar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if (ordenseleccionada != null) {
+        			int ordeneliminar = Integer.parseInt(ordenseleccionada);
+                    boolean resultado = conector.eliminarOrden(ordeneliminar);
+                    if (resultado) {
+                        JOptionPane.showMessageDialog(null, "Orden eliminada correctamente.");
+                        actualizarTablaOrdenes(tablaorden);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al eliminar orden.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Por favor, selecciona una orden de la tabla.");
+                }
+        	}
+        });
+        eliminar.setVisible(false);
+        eliminar.setBounds(506, 445, 89, 23);
+        Ordenes.add(eliminar);
+        
+
         
         JButton revisar = new JButton("Revisar");
-        revisar.setBounds(10, 434, 89, 23);
+        revisar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		modificar.setVisible(true);
+        		eliminar.setVisible(true);
+        		tablaorden.setVisible(true);
+        		actualizarTablaOrdenes(tablaorden);
+        	}
+        });
+        revisar.setBounds(314, 445, 89, 23);
         Ordenes.add(revisar);
+        modificar.setBounds(410, 445, 89, 23);
+        Ordenes.add(modificar);
+        
+        
+        
+        JLabel lblNewLabel_1 = new JLabel("Matricula");
+        lblNewLabel_1.setBounds(21, 14, 46, 14);
+        Ordenes.add(lblNewLabel_1);
+        
+        JButton agregar = new JButton("Agregar");
+        agregar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		int idord = (int) (Math.random() * (99999999 - 10000000 + 1)) + 10000000;
+                String estadorep = "Disponible";
+                String  usuario= usuario_nom.getText();
+                String vehiculo_matri = matriculavehi.getText();
+                int importe = precio;
+                String fecha = fechaord.getText();
+                String servicio = descripcion.getText();
+
+                boolean resultado = conector.agregarOrden(idord, estadorep, usuario, vehiculo_matri, importe, fecha, servicio);
+                if (resultado) {
+                    JOptionPane.showMessageDialog(null, "Trabajador agregado correctamente.");
+                    actualizarTablaOrdenes(tablaorden);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al agregar trabajador.");
+                }
+        	}
+        });
+        agregar.setBounds(353, 244, 89, 23);
+        Ordenes.add(agregar);
+        
+        JLabel lblNewLabel_4 = new JLabel("Id orden:");
+        lblNewLabel_4.setBounds(380, 26, 46, 14);
+        Ordenes.add(lblNewLabel_4);
+        
+        
+        
+        //AQUI TERMINA LA VENTANA DE ORDENES!!!!!
+
 
         // Campos de texto para el CRUD de vehículos
         JLabel lblMatricula = new JLabel("Matrícula:");
@@ -842,7 +1086,9 @@ public class Administrador extends JFrame {
             ex.printStackTrace();
         }
     }
-    //Metodo para deshabilitar los RadioButtons
+//METODOS PARA LA VENTANA DE ORDENES!!!
+    
+    
     private void deshabilitaropciones() {
         diagnostico.setEnabled(false);
         preitv.setEnabled(false);
@@ -856,8 +1102,7 @@ public class Administrador extends JFrame {
         aire.setEnabled(false);
         electronica.setEnabled(false);
         }
-    
-    //Metodo para habilitar los RadioButtons
+
     private void habilitaropciones() {
     	diagnostico.setEnabled(true);
         preitv.setEnabled(true);
@@ -872,12 +1117,12 @@ public class Administrador extends JFrame {
         electronica.setEnabled(true);
     }
     
-    private boolean comprobardni(String dniord) {
+    private boolean comprobarmatricula(String matricula) {
     	boolean comprobado = false;
-    	ResultSet rs = conector.clientesdni();
+    	ResultSet rs = conector.vehiculomatricula();
     	try {
     	while(rs.next()) {
-    		if(rs.getString("dni").equals(dniord)) {
+    		if(rs.getString("matricula").equals(matricula)) {
     			comprobado = true;
     		}	
     	}
@@ -888,6 +1133,38 @@ public class Administrador extends JFrame {
     	return comprobado;
     }
 
+    private void actualizarTablaOrdenes(JTable tablaOrdenes) {
+        ResultSet rs = conector.obtenerOrden();
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        // Definir las columnas de la tabla
+        modelo.addColumn("idorden");
+        modelo.addColumn("estadoreparacion");
+        modelo.addColumn("usuario_dni");
+        modelo.addColumn("vehiculo_matricula");
+        modelo.addColumn("importe");
+        modelo.addColumn("fecha");
+        modelo.addColumn("servicio");
+
+        try {
+            while (rs.next()) {
+                modelo.addRow(new Object[] {
+                    rs.getString("idorden"),
+                    rs.getString("estadoreparacion"),
+                    rs.getString("usuario_dni"),
+                    rs.getString("vehiculo_matricula"),
+                    rs.getString("importe"),
+                    rs.getString("fecha"),
+                    rs.getString("servicio")
+                });
+            }
+            tablaOrdenes.setModel(modelo);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+// FIN DE LOS METODOS DE LA VENTANA DE ORDENES
     /**
      * Clase interna para manejar acciones.
      */

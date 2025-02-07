@@ -416,7 +416,7 @@ public class Conector {
             e.printStackTrace();
         }
     }
-    public ResultSet clientesdni() {
+    public ResultSet vehiculomatricula() {
         try {
             if (cn == null || cn.isClosed()) {
                 conexion_correcta();
@@ -426,11 +426,102 @@ public class Conector {
                 st = cn.createStatement();
             }
 
-            String query = "SELECT DNI FROM cliente";
+            String query = "SELECT matricula FROM vehiculo";
             resultado = st.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return resultado;
+    }
+    //Obtener ordenes
+    public ResultSet obtenerOrden() {
+        try {
+            if (cn == null || cn.isClosed()) {
+                conexion_correcta();
+            }
+
+            if (st == null || st.isClosed()) {
+                st = cn.createStatement();
+            }
+
+            String query = "SELECT * FROM ordenreparacion";
+            resultado = st.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultado;
+    }
+    //Actualizar ordenes
+    public boolean actualizarOrden(int idorden, String estadoreparacion, String usuario_dni, String vehiculo_matricula, int importe, String fecha, String servicio) {
+        try {
+            if (cn == null || cn.isClosed()) {
+                conexion_correcta();
+            }
+
+            String sql = "UPDATE ordenreparacion SET idorden = ?, estadoreparacion = ?, usuario_dni = ?, vehiculo_matricula = ?, importe = ?, fecha = ?, servicio = ? WHERE idorden = ?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            
+            // Establecer los valores de los parámetros
+            ps.setInt(1, idorden);
+            ps.setString(2, estadoreparacion);
+            ps.setString(3, usuario_dni);
+            ps.setString(4, vehiculo_matricula);
+            ps.setInt(5, importe);
+            ps.setString(6, fecha);
+            ps.setString(7, servicio);
+            ps.setInt(8, idorden);  // Este es el valor del idorden en el WHERE
+
+            // Ejecutar la actualización
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            cerrarRecursos();
+        }
+    }
+
+    public boolean agregarOrden(int idord, String estado, String usuario, String matrivehi, int importe, String fecha, String servicio) {
+        try {
+            if (cn == null || cn.isClosed()) {
+                conexion_correcta();
+            }
+
+            String sql = "INSERT INTO ordenreparacion (idorden, estadoreparacion, usuario_dni, vehiculo_matricula, importe, fecha, servicio) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setInt(1, idord);
+            ps.setString(2, estado);
+            ps.setString(3, usuario);
+            ps.setString(4, matrivehi);
+            ps.setInt(5, importe);
+            ps.setString(6, fecha);
+            ps.setString(7, servicio);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            cerrarRecursos();
+        }
+    }
+    public boolean eliminarOrden(int id) {
+        try {
+            if (cn == null || cn.isClosed()) {
+                conexion_correcta();
+            }
+
+            String sql = "DELETE FROM ordenreparacion WHERE idorden = ?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            cerrarRecursos();
+        }
     }
 }
